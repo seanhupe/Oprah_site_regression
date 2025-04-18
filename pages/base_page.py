@@ -12,4 +12,7 @@ class BasePage:
         Initialize the BasePage with Playwright Page object
         Args:  page (Page):  The PW Object representing the current browser tab
         """
-        self.page = page
+        self.page = page        #Assigns the passed Page to the instance's 'page' attribute, allowing interaction with the browser
+        self.config = configparser.ConfigParser()   # Creates an instance of the ConfigParser to handing configuration
+        self.config.read('config/config.ini')       # Reads settings from 'config.ini' file
+        self.base_url = self.config.get('environment', 'base_url')  # Retrieves url from the '[environment]' section of config file
