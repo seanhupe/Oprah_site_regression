@@ -15,7 +15,10 @@ class BasePage:
         self.page = page        # Assigns the passed Page to the instance's 'page' attribute, allowing interaction with the browser
         self.config = configparser.ConfigParser()   # Creates an instance of the ConfigParser to handing configuration
         self.config.read('config/config.ini')       # Reads settings from 'config.ini' file
-        self.base_url = self.config.get('environment', 'base_url')  # Retrieves url from the '[environment]' section of config file
+        # Get the environment from the OS environment variable, default to 'environment'
+        self.env = os.environ.get('TEST_ENV', 'environment')  # 'environment' is the default
+        # Use a more robust way to get the base URL, with a fallback
+        self.base_url = self.config.get(self.env, 'base_url', fallback=self.config.get('environment', 'base_url'))  # Retrieves url from the '[environment]' section of config file
 
     def navigate(self, path=""):
         """
@@ -68,4 +71,4 @@ class BasePage:
         :param state: (str, optional): Load state to wait for ('domcontentloaded', 'load', 'networkidle')
         :param timeout: (int, optional): The maximum time to wait in milliseconds. Default is 30000
         """
-        self.page.wait_for_load_state(state=state, timeout=timeout)
+        self.page.wait_for_load_state(state=state, timeout=timeout)  # Uses Playwright's 'wait_for_load_state' to ensure the page is loaded.
