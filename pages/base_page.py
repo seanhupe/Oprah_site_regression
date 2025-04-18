@@ -48,14 +48,24 @@ class BasePage:
         return self.page.inner_text(locator)
 
     def click(self, locator):
-        return self.page.click(locator)
+        """
+        Clicks on an element matching the given locator.
+        Args: locator (str): PW locator string to identify the element.
+        """
+        self.page.click(locator)
 
     def fill(self, locator, text):
+        """
+        Fills an input field or similar element matching the given locator with the provided text.
+        Args: locator (str): PW locator string to identify an element.
+              text (str): The text to fill into the element.
+        """
         self.page.fill(locator, text)
 
     def wait_for_load_state(self, state="domcontentloaded", timeout=30000):
+        """
+        Waits for the page to reach a specific load state.
+        :param state: (str, optional): Load state to wait for ('domcontentloaded', 'load', 'networkidle')
+        :param timeout: (int, optional): The maximum time to wait in milliseconds. Default is 30000
+        """
         self.page.wait_for_load_state(state=state, timeout=timeout)
-
-
-
-
